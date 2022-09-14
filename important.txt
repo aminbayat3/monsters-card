@@ -28,3 +28,45 @@ const getData = async function () {
     console.log(e);
   }
 };
+
+
+const getData = async function () {
+  try {
+    const [users, posts, albums] = await Promise.all(
+      urls.map((url) => {
+        const response = await fetch(url);
+        return response.json();
+      })
+    );
+    console.log("users", users);
+    console.log("posts", posts);
+    console.log("albums", albums);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// for await of
+
+getData2 = async function() {
+  const arrayOfPromises = urls.map(url => fetch(url));
+  for await (let request of arrayOfPromises) {
+    const data = await request.json();
+    console.log(data);
+  }
+}
+
+// Video 255 zero to mastery
+// Promise.allSettled : we know that Promise.all only works when all the promises resolved so for example
+
+const promiseOne = new Promise((resolve, reject) => setTimeout(resolve, 3000));
+const promiseTwo = new Promise((resolve, reject) => setTimeout(reject, 3000));
+
+Promise.all([promiseOne, promiseTwo]).then(data => console.log(data))
+  .catch(e => console.log('something failed, e));\
+
+but we could write: 
+this Promise.allSettled will run all the promises regardless of whether they reject or not
+
+Promise.allSettled([promiseOne, promiseTwo]).then(data => console.log(data))
+  .catch(e => console.log('something failed', e));
