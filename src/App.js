@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import CardList from "./components/card-list/card-list.component";
 import SearchBox from "./components/search-box/search-box.component";
@@ -10,6 +10,8 @@ const App = () => {
   const [searchField, setSearchField] = useState("");
   const [message, setMessage] = useState([]); // this is just for demonstrating why we need to use useEffect for filteredMonsters too. because for every render it's going to filter the monsters array again . you can just test that with a console.log.
   const [filteredMonsters, setFilteredMonsters] = useState(monsters);
+  const [count, setCount] = useState(1);
+  const prevCount = useRef();
 
   //solution #1
   // useEffect(() => {
@@ -81,6 +83,12 @@ const App = () => {
     return () => mounted = false;
   }, [ searchField, monsters ]);
 
+  useEffect(() => {
+    prevCount.current = count;
+  }, [count])
+
+  
+
   const onSearchChange = (e) => {
     const { value } = e.target;
     setSearchField(value);
@@ -90,11 +98,17 @@ const App = () => {
     setMessage(["amin"]);
   };
 
+  const onHandleClick = () => {
+    setCount(count + 1);
+  }
+
   console.log("render");
   return (
     <div className="App">
       <h1 className="app-title">Monsters Rolodex</h1>
       <button onClick={handleClick}>Message</button>
+      <button onClick={onHandleClick}>change Count</button>
+      <p>Now: {count} Previous: {prevCount.current}</p>
 
       <SearchBox
         className="monsters-search-box"
