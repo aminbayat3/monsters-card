@@ -1,0 +1,4 @@
+if you're doint object oriented style then use interface 
+but if you're using more of a function oriented style use types
+
+utils folder is very important(fetch call)
